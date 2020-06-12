@@ -5,8 +5,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
-    kotlin("jvm") version "1.4-M3-eap-58"
-    kotlin("kapt") version "1.4-M3-eap-58"
+    kotlin("jvm") version "1.4-M2"
+    kotlin("kapt") version "1.4-M2"
     id("io.gitlab.arturbosch.detekt") version "1.9.1"
 //    id("org.jetbrains.dokka") version "0.11.0-dev-45"
     application
@@ -63,7 +63,7 @@ dependencies {
 }
 
 java {
-    modularity.inferModulePath.set(true)
+//    modularity.inferModulePath.set(true)
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
     withJavadocJar()
