@@ -7,6 +7,7 @@ plugins {
     `java-library`
     kotlin("jvm") version "1.4-M2"
     kotlin("kapt") version "1.4-M2"
+    antlr
     id("io.gitlab.arturbosch.detekt") version "1.9.1"
 //    id("org.jetbrains.dokka") version "0.11.0-dev-45"
     application
@@ -14,14 +15,16 @@ plugins {
     idea
 }
 
-val kotlinVersion: String by project
-val kotlinXCoroutinesVersion: String by project
-val jetbrainsAnnotationsVersion: String by project
+val antlr4Version: String by project
+val cliktVersion: String by project
 val detektVersion: String by project
 val graalVMVersion: String by project
+val icuVersion: String by project
+val jetbrainsAnnotationsVersion: String by project
 val junit5Version: String by project
 val kotestVersion: String by project
-val icuVersion: String by project
+val kotlinVersion: String by project
+val kotlinXCoroutinesVersion: String by project
 
 group = "com.pthariensflame.lycete"
 version = "0.0.1"
@@ -36,13 +39,14 @@ repositories {
 
 dependencies {
     api(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
-    testApi(platform("org.junit:junit-bom:$junit5Version"))
+    api(platform("org.junit:junit-bom:$junit5Version"))
     api(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$kotlinXCoroutinesVersion"))
     constraints {
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.7") // FIXME
-        api("junit:junit:4.13")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:[1.3.7,)") // FIXME
+        api("junit:junit:[4.13,)")
     }
 
+    antlr("org.antlr", "antlr4", antlr4Version)
     kapt("org.graalvm.truffle", "truffle-dsl-processor", graalVMVersion)
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
@@ -52,10 +56,13 @@ dependencies {
     api("org.graalvm.truffle", "truffle-api", graalVMVersion)
     api("org.graalvm.sdk", "graal-sdk", graalVMVersion)
     api("org.graalvm.tools", "lsp_api", graalVMVersion)
+    implementation("org.antlr", "antlr4-runtime", antlr4Version)
     implementation("com.ibm.icu", "icu4j", icuVersion)
+    implementation("com.github.ajalt", "clikt", cliktVersion)
 
     testApi(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
+    testImplementation("org.jetbrains.kotlinx", "kotlinx-coroutines-jdk9", kotlinXCoroutinesVersion)
     testImplementation("io.kotest", "kotest-runner-junit5-jvm", kotestVersion)
     testApi("io.kotest", "kotest-assertions-core-jvm", kotestVersion)
     testApi("io.kotest", "kotest-property-jvm", kotestVersion)
@@ -107,8 +114,9 @@ tasks {
             javaParameters = true
             jvmTarget = "11"
             freeCompilerArgs += arrayOf(
-                    "-progressive"
-                                       )
+                "-progressive",
+                "-Xjvm-default=enable"
+            )
         }
     }
 
