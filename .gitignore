@@ -242,4 +242,6 @@ flycheck_*.el
 /network-security.data
 
 
+## user additions ##
 
+/.idea
