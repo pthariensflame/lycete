@@ -14,6 +14,8 @@
    limitations under the License.
 -->
 
-# Lycete
+# Revision history for lycete
 
-A functional-objective-lenticular programming language.
+## 0.1.0.0 -- YYYY-mm-dd
+
+* First version. Released on an unsuspecting world.
