@@ -13,7 +13,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -}
-module MyLib (someFunc) where
-
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+module MyLib (
+    
+) where
