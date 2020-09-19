@@ -15,7 +15,7 @@
 -}
 module Main where
 
-import qualified MyLib ()
+import Lycete
 
 main :: IO ()
 main = do
